@@ -12,6 +12,7 @@ export default {
     submit: 'Login',
     success: 'Login successful',
     error: 'Username or password wrong',
-    pleaseFill: 'Please fill out all fields'
+    pleaseFill: 'Please fill out all fields',
+    logout: 'Logout'
   }
 };

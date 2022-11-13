@@ -71,6 +71,8 @@ watch(lang, val => {
           options-dense
           style="min-width: 150px"
         />
+
+        <q-btn v-if="store.loggedIn" :label="$t('login.logout')" flat @click="store.logout" />
       </q-toolbar>
     </q-header>
 

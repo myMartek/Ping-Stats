@@ -17,8 +17,13 @@ export const useAppStore = defineStore('counter', {
         password
       });
 
-      this.jwt = response.data.jwt;
+      this.jwt = response.data.token;
+
       sessionStorage.setItem('jwt', this.jwt);
+    },
+    logout() {
+      this.jwt = null;
+      sessionStorage.removeItem('jwt');
     }
   }
 });

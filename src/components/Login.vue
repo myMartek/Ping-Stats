@@ -36,7 +36,7 @@ const onSubmit = async() => {
 <template>
   <q-card class="loginForm">
     <q-card-section>
-      <div class="text-h6">Login</div>
+      <div class="text-h6">{{ $t('login.title') }}</div>
     </q-card-section>
     <q-card-section>
       <q-form
@@ -46,10 +46,10 @@ const onSubmit = async() => {
         <q-input
           v-model="username"
           filled
-          label="Benutzername"
+          :label="$t('login.username')"
           lazy-rules
           :rules="[
-            val => val && val.length > 0 || 'Please type something'
+            val => val && val.length > 0 || $t('login.pleaseFill')
           ]"
         />
 
@@ -57,15 +57,15 @@ const onSubmit = async() => {
           v-model="password"
           filled
           type="password"
-          label="Passwort"
+          :label="$t('login.password')"
           lazy-rules
           :rules="[
-            val => val && val.length > 0 || 'Please type something'
+            val => val && val.length > 0 || $t('login.pleaseFill')
           ]"
         />
 
         <div>
-          <q-btn label="Submit" type="submit" color="primary" />
+          <q-btn :label="$t('login.submit')" type="submit" color="primary" />
         </div>
       </q-form>
     </q-card-section>

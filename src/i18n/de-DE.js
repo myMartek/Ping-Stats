@@ -12,6 +12,7 @@ export default {
     submit: 'Anmelden',
     success: 'Anmeldung erfolgreich',
     error: 'Benutzername oder Passwort falsch',
-    pleaseFill: 'Bitte füllen Sie alle Felder aus'
+    pleaseFill: 'Bitte füllen Sie alle Felder aus',
+    logout: 'Abmelden'
   }
 };
