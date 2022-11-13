@@ -1,6 +1,8 @@
 import { createApp } from 'vue';
 import { Quasar } from 'quasar';
-import quasarLang from 'quasar/lang/de';
+import i18n from './boot/i18n.js';
+import de from 'quasar/lang/de';
+import en from 'quasar/lang/en-US';
 
 // Import icon libraries
 import '@quasar/extras/roboto-font/roboto-font.css';
@@ -18,12 +20,14 @@ import 'quasar/src/css/index.sass';
 // and placed in same folder as main.js
 import App from './App.vue';
 
-const myApp = createApp(App);
+const app = createApp(App);
 
-myApp.use(Quasar, {
+app.use(Quasar, {
   plugins: {}, // import Quasar plugins and add here
-  lang: quasarLang
+  lang: de
 });
 
+i18n({ app });
+
 // Assumes you have a <div id="app"></div> in your index.html
-myApp.mount('#app');
+app.mount('#app');
