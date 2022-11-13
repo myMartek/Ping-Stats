@@ -4,6 +4,7 @@ import i18n from '@/boot/i18n.js';
 import de from 'quasar/lang/de';
 import en from 'quasar/lang/en-US';
 import { createPinia } from 'pinia';
+import VueApexCharts from 'vue3-apexcharts';
 
 // Import icon libraries
 import '@quasar/extras/roboto-font/roboto-font.css';
@@ -36,6 +37,7 @@ app.use(Quasar, {
 
 i18n({ app });
 app.use(pinia);
+app.use(VueApexCharts);
 
 // Assumes you have a <div id="app"></div> in your index.html
 app.mount('#app');

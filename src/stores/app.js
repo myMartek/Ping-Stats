@@ -1,6 +1,9 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
 import { io } from 'socket.io-client';
+import { Notify } from 'quasar';
+import { i18n } from '@/boot/i18n.js';
+const $t = i18n.global.t;
 
 export const useAppStore = defineStore('app', {
   state: () => ({
@@ -44,7 +47,6 @@ export const useAppStore = defineStore('app', {
 
       socket.on('connect', () => {
         this.socket = socket;
-        console.log('Connected');
       });
 
       socket.on('connect_error', () => {
@@ -53,6 +55,13 @@ export const useAppStore = defineStore('app', {
 
       socket.on('locations', (locations) => {
         this.locations = locations;
+      });
+
+      socket.on('error', (data) => {
+        Notify.create({
+          type: 'negative',
+          message: $t(data)
+        });
       });
     },
     sendSocket(event, data) {

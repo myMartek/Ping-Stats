@@ -5,6 +5,9 @@ export default {
   options: {
     language: 'Sprache'
   },
+  location: {
+    exists: 'Ziel existiert bereits'
+  },
   login: {
     title: 'Anmelden',
     username: 'Benutzername',
