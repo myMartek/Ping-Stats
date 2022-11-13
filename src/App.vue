@@ -3,7 +3,13 @@ import { useQuasar } from 'quasar';
 import languages from 'quasar/lang/index.json';
 import { useI18n } from 'vue-i18n';
 import { ref, watch } from 'vue';
-import Ping from './components/Ping.vue';
+import { useAppStore } from '@/stores/app.js';
+
+import Ping from '@/components/Ping.vue';
+import Login from '@/components/Login.vue';
+
+const store = useAppStore();
+const $q = useQuasar();
 
 const appLanguages = languages.filter(lang =>
   [ 'de', 'en-US' ].includes(lang.isoName)
@@ -15,8 +21,7 @@ const langOptions = appLanguages.map(lang => ({
   label: lang.nativeName, value: lang.isoName
 }));
 
-const $q = useQuasar();
-const lang = ref('de');
+const lang = ref($q.lang.getLocale() === 'de-DE' ? 'de' : 'en-US');
 
 function __variableDynamicImportRuntime__(path) {
   switch (path) {
@@ -46,7 +51,7 @@ watch(lang, val => {
 
 <template>
   <q-layout view="hHh lpR fFf">
-    <q-header elevated class="bg-secondary text-white">
+    <q-header elevated class="bg-primary text-white">
       <q-toolbar>
         <q-toolbar-title>
           {{ $t('app.title') }}
@@ -59,6 +64,7 @@ watch(lang, val => {
           :options="langOptions"
           :label="$t('options.language')"
           dense
+          label-color="white"
           borderless
           emit-value
           map-options
@@ -68,15 +74,32 @@ watch(lang, val => {
       </q-toolbar>
     </q-header>
 
-    <q-drawer show-if-above side="left" bordered>
-      test
-    </q-drawer>
+    <template v-if="store.loggedIn">
+      <q-drawer show-if-above side="left" bordered>
+        test
+      </q-drawer>
 
-    <q-page-container>
-      <Ping />
+      <q-page-container>
+        <Ping />
+      </q-page-container>
+    </template>
+
+    <q-page-container v-else>
+      <Login />
     </q-page-container>
   </q-layout>
 </template>
 
 <style lang="scss" scoped>
+.loginForm {
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 15px;
+}
+</style>
+
+<style lang="scss">
+.q-field span, .q-field .q-select__dropdown-icon {
+  color: white;
+}
 </style>

@@ -3,5 +3,5 @@ import de from './de-DE.js';
 
 export default {
   'en-US': en,
-  de
+  'de-DE': de
 };

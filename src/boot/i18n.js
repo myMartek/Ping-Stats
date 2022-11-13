@@ -1,11 +1,12 @@
 import { createI18n } from 'vue-i18n';
-import messages from '../i18n';
+import messages from '@/i18n';
+import { Quasar } from 'quasar';
 
 export default ({ app }) => {
   // Create I18n instance
   const i18n = createI18n({
     legacy: false,
-    locale: 'de-DE',
+    locale: Quasar.lang.getLocale(),
     globalInjection: true,
     messages
   });
