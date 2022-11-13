@@ -1,7 +1,8 @@
-# Vue 3 + Vite
+# Ping Stats
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+This Tool is used to ping a list of hosts and display the results as charts.
+It can be used to monitor the availability of a list of hosts and identify network issues.
 
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+# Progress
+This tool is still in development and is not yet ready for production use.
+A docker installation will be available at version 1.0.
