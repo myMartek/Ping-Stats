@@ -23,7 +23,7 @@ const validateInput = (value) => {
   <div class="q-pa-md">
     <div class="row">
       <div class="col">
-        <q-btn icon="mdi-plus" class="full-width" color="positive" label="Ziel hinzufügen" />
+        <q-btn icon="mdi-plus" class="full-width" color="positive" :label="$t('location.add')" />
         <q-popup-edit v-slot="scope" v-model="target" persistent :validate="validateInput" :cover="false" :offset="[0, 10]">
           <q-input v-model="scope.value" color="primary" dense autofocus @keyup.enter="scope.set">
             <template #prepend>

@@ -57,6 +57,14 @@ export const useAppStore = defineStore('app', {
         this.locations = locations;
       });
 
+      socket.on('ping', (data) => {
+        const location = this.locations.find((l) => l.address === data.address);
+
+        if (location) {
+          location.history.push(data.value);
+        }
+      });
+
       socket.on('error', (data) => {
         Notify.create({
           type: 'negative',

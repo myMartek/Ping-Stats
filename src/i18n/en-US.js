@@ -6,6 +6,7 @@ export default {
     language: 'Language'
   },
   location: {
+    add: 'Add location',
     exists: 'Target already exists'
   },
   login: {

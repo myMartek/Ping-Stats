@@ -6,6 +6,7 @@ export default {
     language: 'Sprache'
   },
   location: {
+    add: 'Ziel hinzufügen',
     exists: 'Ziel existiert bereits'
   },
   login: {

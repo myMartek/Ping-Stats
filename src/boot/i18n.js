@@ -2,9 +2,16 @@ import { createI18n } from 'vue-i18n';
 import messages from '@/i18n';
 import { Quasar } from 'quasar';
 
+let locale;
+if (Quasar.lang.getLocale() === 'de-DE' || Quasar.lang.getLocale() === 'de') {
+  locale = 'de';
+} else {
+  locale = 'en-US';
+}
+
 const i18n = createI18n({
   legacy: false,
-  locale: Quasar.lang.getLocale(),
+  locale,
   globalInjection: true,
   messages
 });
