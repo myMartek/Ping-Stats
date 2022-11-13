@@ -6,6 +6,7 @@ import { ref, watch } from 'vue';
 import { useAppStore } from '@/stores/app.js';
 
 import Ping from '@/components/Ping.vue';
+import Locations from '@/components/Locations.vue';
 import Login from '@/components/Login.vue';
 
 const store = useAppStore();
@@ -47,6 +48,10 @@ watch(lang, val => {
     locale.value = val;
   });
 });
+
+if (store.loggedIn) {
+  store.connect();
+}
 </script>
 
 <template>
@@ -78,7 +83,7 @@ watch(lang, val => {
 
     <template v-if="store.loggedIn">
       <q-drawer show-if-above side="left" bordered>
-        test
+        <Locations />
       </q-drawer>
 
       <q-page-container>

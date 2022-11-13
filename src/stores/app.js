@@ -1,9 +1,12 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
+import { io } from 'socket.io-client';
 
-export const useAppStore = defineStore('counter', {
+export const useAppStore = defineStore('app', {
   state: () => ({
-    jwt: sessionStorage.getItem('jwt')
+    jwt: sessionStorage.getItem('jwt'),
+    socket: null,
+    locations: []
   }),
   getters: {
     loggedIn() {
@@ -20,10 +23,42 @@ export const useAppStore = defineStore('counter', {
       this.jwt = response.data.token;
 
       sessionStorage.setItem('jwt', this.jwt);
+      this.connect();
     },
     logout() {
       this.jwt = null;
       sessionStorage.removeItem('jwt');
+    },
+    connect() {
+      let protocol = 'wss://';
+      let url = location.hostname;
+
+      if (import.meta.env.VITE_BASE_URL.startsWith('http://')) {
+        protocol = 'ws://';
+        url = import.meta.env.VITE_BASE_URL.replace('http://', '');
+      }
+      const socket = io(`${protocol}${url}`, {
+        reconnectionDelayMax: 10000,
+        auth: { token: `Bearer ${this.jwt}` }
+      });
+
+      socket.on('connect', () => {
+        this.socket = socket;
+        console.log('Connected');
+      });
+
+      socket.on('connect_error', () => {
+        this.socket = null;
+      });
+
+      socket.on('locations', (locations) => {
+        this.locations = locations;
+      });
+    },
+    sendSocket(event, data) {
+      if (this.socket) {
+        this.socket.emit(event, data);
+      }
     }
   }
 });

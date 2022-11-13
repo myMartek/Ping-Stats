@@ -2,12 +2,31 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
+import http from 'http';
+import { Server } from 'socket.io';
+import { addSocket } from './socket.js';
+import { authorize } from '@thream/socketio-jwt';
 
 const app = express();
 const port = process.env.BACKEND_PORT || 3000;
 
 app.use(express.json());
 app.use(cors());
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: true,
+    methods: ['GET', 'POST']
+  }
+});
+
+io.use(
+  authorize({
+    secret: process.env.TOKEN_KEY
+  })
+);
+
+addSocket(io);
 
 app.post('/api/login', async(req, res) => {
   // Our login logic starts here
@@ -42,7 +61,7 @@ app.post('/api/login', async(req, res) => {
   // Our register logic ends here
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log(`Backend listening on port ${port}`);
 });
