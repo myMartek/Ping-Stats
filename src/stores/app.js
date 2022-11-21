@@ -9,11 +9,40 @@ export const useAppStore = defineStore('app', {
   state: () => ({
     jwt: sessionStorage.getItem('jwt'),
     socket: null,
-    locations: []
+    locations: [],
+    duration: 30
   }),
   getters: {
     loggedIn() {
       return this.jwt !== null;
+    },
+    maxDuration() {
+      return this.locations.reduce((max, location) => {
+        if (location.history.length === 0) {
+          return max;
+        }
+
+        let lastValue = location.history[location.history.length - 1];
+
+        if (typeof lastValue !== 'number') {
+          lastValue = lastValue[0];
+        }
+
+        return Math.max(max, lastValue);
+      }, 0);
+    },
+    maxMS() {
+      let ret = this.locations.reduce((max, location) => {
+        if (location.history.length === 0) {
+          return max;
+        }
+
+        let maxValue = Math.max(...location.history.filter(e => typeof e !== 'number').map(e => e[1]));
+
+        return Math.max(max, maxValue);
+      }, 0);
+
+      return ret + (ret * 0.1);
     }
   },
   actions: {

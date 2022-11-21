@@ -1,8 +1,12 @@
 <script setup>
 import { ref, watch, computed } from 'vue';
+import { useAppStore } from '@/stores/app.js';
 import { useQuasar } from 'quasar';
 import de from 'apexcharts/dist/locales/de.json';
 import en from 'apexcharts/dist/locales/en.json';
+import moment from 'moment';
+
+const store = useAppStore();
 const $q = useQuasar();
 
 const chart = ref(null);
@@ -12,7 +16,7 @@ const props = defineProps({
     required: true
   }
 });
-const history = computed(() => props.location.history.map(e => typeof e === 'number' ? [e, null] : e));
+const history = computed(() => props.location.history.map(e => typeof e === 'number' ? [e, null] : e).filter(e => e[0] > moment().subtract(store.duration, 'minutes').valueOf()));
 const annotations = computed(() => {
   let res = props.location.history.reduce((acc, e) => {
     if (typeof e === 'number' && acc.last !== null) {
@@ -67,10 +71,14 @@ const chartOptions = computed(() => ({
     style: 'hollow'
   },
   xaxis: {
+    min: moment().subtract(store.duration, 'minutes').valueOf(),
+    max: store.maxDuration,
     type: 'datetime',
     tickAmount: 6
   },
   yaxis: {
+    min: 0,
+    max: store.maxMS,
     labels: {
       formatter(value) {
         return `${Math.round(value)} ms`;
@@ -82,6 +90,7 @@ const chartOptions = computed(() => ({
     width: 1
   },
   tooltip: {
+    enabled: false,
     x: {
       format: 'dd MMM yyyy'
     }
@@ -99,8 +108,6 @@ const chartOptions = computed(() => ({
     }
   }
 }));
-
-console.log(annotations.value);
 
 watch(() => $q.lang.isoName, async() => {
   if (chart.value) {

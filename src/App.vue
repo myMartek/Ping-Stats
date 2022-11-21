@@ -2,7 +2,7 @@
 import { useQuasar } from 'quasar';
 import languages from 'quasar/lang/index.json';
 import { useI18n } from 'vue-i18n';
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { useAppStore } from '@/stores/app.js';
 
 import Ping from '@/components/Ping.vue';
@@ -16,11 +16,21 @@ const appLanguages = languages.filter(lang =>
   [ 'de', 'en-US' ].includes(lang.isoName)
 );
 
-const { locale } = useI18n({ useScope: 'global' });
+const { locale, t: $t } = useI18n({ useScope: 'global' });
 
 const langOptions = appLanguages.map(lang => ({
   label: lang.nativeName, value: lang.isoName
 }));
+
+const durationOptions = computed(() => [
+  { label: $t('app.durationOptions.minutes10'), value: 10 },
+  { label: $t('app.durationOptions.minutes30'), value: 30 },
+  { label: $t('app.durationOptions.hours1'), value: 60 },
+  { label: $t('app.durationOptions.hours2'), value: 120 },
+  { label: $t('app.durationOptions.hours6'), value: 360 },
+  { label: $t('app.durationOptions.hours12'), value: 720 },
+  { label: $t('app.durationOptions.hours24'), value: 1440 }
+]);
 
 const lang = ref($q.lang.getLocale() === 'de-DE' ? 'de' : 'en-US');
 
@@ -63,6 +73,19 @@ if (store.loggedIn) {
         </q-toolbar-title>
 
         <q-space />
+
+        <q-select
+          v-model="store.duration"
+          :options="durationOptions"
+          :label="$t('options.language')"
+          dense
+          label-color="white"
+          borderless
+          emit-value
+          map-options
+          options-dense
+          style="min-width: 150px"
+        />
 
         <q-select
           v-model="lang"
