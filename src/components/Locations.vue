@@ -17,6 +17,8 @@ const validateInput = (value) => {
     && (/^((?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])[.]){3}(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$/.test(value) // Value is a valid IP address
       || /^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/.test(value)); // Value is a valid domain name
 };
+
+const avg = (arr) => Math.round(arr.filter(e => typeof e !== 'number').reduce((a, b) => a + b[1], 0) / arr.length);
 </script>
 
 <template>
@@ -56,7 +58,7 @@ const validateInput = (value) => {
               <span class="text-weight-medium">{{ location.address }}</span>
             </q-item-label>
             <q-item-label caption lines="1">
-              ø 10 ms
+              ø {{ avg(location.history) }} ms
             </q-item-label>
           </q-item-section>
 
